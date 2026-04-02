@@ -3,15 +3,13 @@
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-typedef struct
-{
+typedef struct {
   u16 size;
   u8 walls[MAX_MAZE_SIZE * (MAX_MAZE_SIZE + 1)];
   u8 topBots[(MAX_MAZE_SIZE + 1) * MAX_MAZE_SIZE];
 } Maze;
 
-typedef struct
-{
+typedef struct {
   int x, y;
 } Vec2d;
 
@@ -21,27 +19,23 @@ static Vec2d stack[MAX_MAZE_SIZE * MAX_MAZE_SIZE];
 
 static unsigned int rngState;
 
-void seedRng(unsigned int seed)
-{
-  rngState = seed;
-}
+void seedRng(unsigned int seed) { rngState = seed; }
 
-static unsigned int nextRand(void)
-{
+static unsigned int nextRand(void) {
   rngState ^= rngState << 13;
   rngState ^= rngState >> 17;
   rngState ^= rngState << 5;
   return rngState;
 }
 
-static inline int maxi(int a, int b) { return a > b ? a : b; }
-
-void generateMaze(int size)
-{
+void generateMaze(int size) {
   maze.size = size;
-  for (int i = 0; i < size * (size + 1); i++) maze.walls[i] = 0;
-  for (int i = 0; i < (size + 1) * size; i++) maze.topBots[i] = 0;
-  for (int i = 0; i < size * size; i++) visited[i] = 0;
+  for (int i = 0; i < size * (size + 1); i++)
+    maze.walls[i] = 0;
+  for (int i = 0; i < (size + 1) * size; i++)
+    maze.topBots[i] = 0;
+  for (int i = 0; i < size * size; i++)
+    visited[i] = 0;
 
   static const int dx[4] = {1, -1, 0, 0};
   static const int dy[4] = {0, 0, 1, -1};
@@ -50,21 +44,18 @@ void generateMaze(int size)
   stack[0] = (Vec2d){0, 0};
   visited[0] = 1;
 
-  while (top >= 0)
-  {
+  while (top >= 0) {
     int cx = stack[top].x, cy = stack[top].y;
     int choices[4], nChoices = 0;
 
-    for (int i = 0; i < 4; i++)
-    {
+    for (int i = 0; i < 4; i++) {
       int nx = cx + dx[i], ny = cy + dy[i];
       if ((unsigned)nx < (unsigned)size && (unsigned)ny < (unsigned)size &&
           !visited[ny * size + nx])
         choices[nChoices++] = i;
     }
 
-    if (!nChoices)
-    {
+    if (!nChoices) {
       top--;
       continue;
     }
@@ -74,10 +65,14 @@ void generateMaze(int size)
     visited[ny * size + nx] = 1;
     stack[++top] = (Vec2d){nx, ny};
 
-    if (dx[dir])
-      maze.walls[cy * (size + 1) + maxi(cx, nx)] = 1;
+    if (dx[dir] == 1)
+      maze.walls[cy * (size + 1) + nx] = 1;
+    else if (dx[dir] == -1)
+      maze.walls[cy * (size + 1) + cx] = 1;
+    else if (dy[dir] == 1)
+      maze.topBots[ny * size + cx] = 1;
     else
-      maze.topBots[maxi(cy, ny) * size + cx] = 1;
+      maze.topBots[cy * size + cx] = 1;
   }
 }
 

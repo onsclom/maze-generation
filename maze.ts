@@ -17,7 +17,7 @@ export function generateMaze(size: number): Maze {
   const dy = [0, 0, 1, -1];
 
   while (stack.length > 0) {
-    const pos = stack[stack.length - 1]!;
+    const pos = stack.at(-1)!;
     const cx = pos % size,
       cy = (pos - cx) / size;
     const choices: number[] = [];
@@ -46,8 +46,10 @@ export function generateMaze(size: number): Maze {
     visited[ny * size + nx] = 1;
     stack.push(ny * size + nx);
 
-    if (dx[dir]) walls[cy * (size + 1) + Math.max(cx, nx)] = true;
-    else topBots[Math.max(cy, ny) * size + cx] = true;
+    if (dx[dir] === 1) walls[cy * (size + 1) + nx] = true;
+    else if (dx[dir] === -1) walls[cy * (size + 1) + cx] = true;
+    else if (dy[dir] === 1) topBots[ny * size + cx] = true;
+    else topBots[cy * size + cx] = true;
   }
 
   return { size, walls, topBots };

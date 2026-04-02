@@ -12,7 +12,7 @@ const wasmExports = wasm.instance.exports as {
   getMazeTopBots(): number;
 };
 
-const buttonsEl = document.getElementById("buttons")!;
+const sizesEl = document.getElementById("sizes")!;
 const logEl = document.getElementById("log")!;
 const canvas = document.getElementById("maze") as HTMLCanvasElement;
 const ctx = canvas.getContext("2d")!;
@@ -132,30 +132,33 @@ function log(size: number, genMs: number, drawMs: number, engine: string) {
   logEl.scrollTop = logEl.scrollHeight;
 }
 
+function getEngine(): string {
+  return (document.querySelector('input[name="engine"]:checked') as HTMLInputElement).value;
+}
+
 for (const size of sizes) {
-  for (const engine of ["WASM", "JS"] as const) {
-    const btn = document.createElement("button");
-    btn.textContent = `${size} (${engine})`;
-    btn.addEventListener("click", () => {
-      if (engine === "WASM") {
-        wasmExports.seedRng(Date.now());
-        const start = performance.now();
-        wasmExports.generateMaze(size);
-        const genMs = performance.now() - start;
-        const drawStart = performance.now();
-        drawWasmMaze();
-        const drawMs = performance.now() - drawStart;
-        log(size, genMs, drawMs, "wasm");
-      } else {
-        const start = performance.now();
-        const maze = generateMazeJS(size);
-        const genMs = performance.now() - start;
-        const drawStart = performance.now();
-        drawJSMaze(maze);
-        const drawMs = performance.now() - drawStart;
-        log(size, genMs, drawMs, "js");
-      }
-    });
-    buttonsEl.appendChild(btn);
-  }
+  const btn = document.createElement("button");
+  btn.textContent = `${size}`;
+  btn.addEventListener("click", () => {
+    const engine = getEngine();
+    if (engine === "WASM") {
+      wasmExports.seedRng(Date.now());
+      const start = performance.now();
+      wasmExports.generateMaze(size);
+      const genMs = performance.now() - start;
+      const drawStart = performance.now();
+      drawWasmMaze();
+      const drawMs = performance.now() - drawStart;
+      log(size, genMs, drawMs, "wasm");
+    } else {
+      const start = performance.now();
+      const maze = generateMazeJS(size);
+      const genMs = performance.now() - start;
+      const drawStart = performance.now();
+      drawJSMaze(maze);
+      const drawMs = performance.now() - drawStart;
+      log(size, genMs, drawMs, "js");
+    }
+  });
+  sizesEl.appendChild(btn);
 }
