@@ -7,8 +7,8 @@ const proc = Bun.spawnSync([
   "-Wl,--no-entry",
   "-Wl,--export-all",
   "-Wl,--lto-O3",
-  "-o",
-  "maze.wasm",
+  "-Wl,-z,stack-size=8388608", // # Set maximum stack size to 8MiB
+  "-o maze.wasm",
   "maze.c",
 ]);
 
