@@ -76,8 +76,8 @@
         background: #f8f8f8;
         display: flex;
         flex-direction: column;
-        justify-content: flex-end;
       }
+      #log-spacer { flex: 1; }
       #clear-log {
         position: absolute;
         top: 4px;
@@ -110,7 +110,7 @@
     </p>
     <div id="log-wrapper">
       <button id="clear-log">clear</button>
-      <div id="log"></div>
+      <div id="log"><div id="log-spacer"></div></div>
     </div>
     <canvas id="maze"></canvas>
   </body>
