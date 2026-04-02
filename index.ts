@@ -1,9 +1,7 @@
 import wasmUrl from "./maze.wasm" with { type: "file" };
 import { generateMaze as generateMazeJS, type Maze } from "./maze.ts";
 
-const response = await fetch(wasmUrl);
-const bytes = await response.arrayBuffer();
-const wasm = await WebAssembly.instantiate(bytes);
+const wasm = await WebAssembly.instantiateStreaming(fetch(wasmUrl));
 
 const wasmExports = wasm.instance.exports as {
   memory: WebAssembly.Memory;

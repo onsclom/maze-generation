@@ -12,6 +12,6 @@
   "scripts": {
     "build:wasm": "bun build-wasm.ts",
     "build": "bun build index.html --outdir dist",
-    "dev": "bun dev.ts"
+    "dev": "bun index.html"
   }
 }
