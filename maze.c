@@ -1,3 +1,5 @@
+// compiled with: clang --target=wasm32 -flto -O3 -nostdlib -Wl,--no-entry -Wl,--export-all -Wl,--lto-O3 -Wl,-z,stack-size=8388608 -o maze.wasm maze.c
+
 #define MAX_MAZE_SIZE 1000
 
 typedef unsigned short u16;

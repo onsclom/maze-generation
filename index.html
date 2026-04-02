@@ -40,16 +40,28 @@
         font-size: 13px;
         user-select: none;
       }
-      #engine label:first-child { border-radius: 4px 0 0 4px; }
-      #engine label:last-child { border-radius: 0 4px 4px 0; border-left: none; }
-      #engine input { display: none; }
+      #engine label:first-child {
+        border-radius: 4px 0 0 4px;
+      }
+      #engine label:last-child {
+        border-radius: 0 4px 4px 0;
+        border-left: none;
+      }
+      #engine input {
+        display: none;
+      }
       #engine label:has(input:checked) {
         background: #333;
         color: #fff;
         border-color: #333;
       }
-      #sizes { display: flex; gap: 6px; }
-      #sizes button { padding: 6px 14px; }
+      #sizes {
+        display: flex;
+        gap: 6px;
+      }
+      #sizes button {
+        padding: 6px 14px;
+      }
       #log {
         height: 100px;
         overflow-y: auto;
@@ -65,12 +77,20 @@
     <h1>maze generation - wasm vs js</h1>
     <div id="controls">
       <div id="engine">
-        <label><input type="radio" name="engine" value="WASM" checked><span>WASM</span></label>
-        <label><input type="radio" name="engine" value="JS"><span>JS</span></label>
+        <label
+          ><input type="radio" name="engine" value="WASM" checked /><span
+            >WASM</span
+          ></label
+        >
+        <label
+          ><input type="radio" name="engine" value="JS" /><span>JS</span></label
+        >
       </div>
       <div id="sizes"></div>
     </div>
-    <p>source: <a href="maze.c">maze.c</a> · <a href="maze.ts.txt">maze.ts</a></p>
+    <p>
+      sources: <a href="maze.c">maze.c</a> · <a href="maze.ts.txt">maze.ts</a>
+    </p>
     <div id="log"></div>
     <canvas id="maze"></canvas>
   </body>
