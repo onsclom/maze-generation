@@ -127,13 +127,15 @@ const sizes = [10, 100, 500, 1000];
 
 function log(size: number, genMs: number, drawMs: number, engine: string) {
   const line = document.createElement("div");
-  line.innerHTML = `<b>${engine}</b> generated size <b>${size}</b> in <b>${genMs.toFixed(1)}ms</b> · canvas rendered in <b>${drawMs.toFixed(1)}ms</b>`;
+  line.innerHTML = `<b>${engine}</b> generated size <b>${size}</b> in <b>${genMs.toFixed(1)}ms</b> - canvas rendered in <b>${drawMs.toFixed(1)}ms</b>`;
   logEl.appendChild(line);
   logEl.scrollTop = logEl.scrollHeight;
 }
 
 function getEngine(): string {
-  return (document.querySelector('input[name="engine"]:checked') as HTMLInputElement).value;
+  return (
+    document.querySelector('input[name="engine"]:checked') as HTMLInputElement
+  ).value;
 }
 
 for (const size of sizes) {
