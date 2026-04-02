@@ -6,15 +6,15 @@ Side-by-side comparison of maze generation in WASM (C compiled to wasm32) and Ja
 
 Requires [Bun](https://bun.sh) and `clang` with wasm32 target support.
 
-```
+```bash
 bun install
-bun run build:wasm
+bun run build:wasm # only required when making changes to maze.c
 bun run dev
 ```
 
 ## Build
 
-```
+```bash
 bun run build
 ```
 
