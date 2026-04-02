@@ -1,15 +1,29 @@
-# maze-generation
+# maze generation
 
-To install dependencies:
+Side-by-side comparison of maze generation in WASM (C compiled to wasm32) and JavaScript. Renders to canvas.
 
-```bash
+## Setup
+
+Requires [Bun](https://bun.sh) and `clang` with wasm32 target support.
+
+```
 bun install
+bun run build:wasm
+bun run dev
 ```
 
-To run:
+## Build
 
-```bash
-bun run index.ts
+```
+bun run build
 ```
 
-This project was created using `bun init` in bun v1.3.10. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+Outputs to `dist/`.
+
+## How it works
+
+Both implementations use randomized DFS (recursive backtracker) to generate perfect mazes. The C version (`maze.c`) is compiled to a standalone `.wasm` module with no libc dependency. The JS version (`maze.ts`) is a direct TypeScript port.
+
+Mazes are drawn on a `<canvas>` using CanvasRenderingContext2D.
+
+WASM setup based on Surma's [Compiling C to WebAssembly without Emscripten](https://surma.dev/things/c-to-webassembly/).

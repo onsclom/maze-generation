@@ -17,6 +17,13 @@ const logEl = document.getElementById("log")!;
 const canvas = document.getElementById("maze") as HTMLCanvasElement;
 const ctx = canvas.getContext("2d")!;
 
+const clearLogBtn = document.getElementById("clear-log") as HTMLButtonElement;
+clearLogBtn.disabled = true;
+clearLogBtn.addEventListener("click", () => {
+  logEl.innerHTML = "";
+  clearLogBtn.disabled = true;
+});
+
 const CELL_PX = 8;
 
 function setupCanvas(size: number) {
@@ -130,6 +137,7 @@ function log(size: number, genMs: number, drawMs: number, engine: string) {
   line.innerHTML = `<b>${engine}</b> generated size <b>${size}</b> in <b>${genMs.toFixed(1)}ms</b> - canvas rendered in <b>${drawMs.toFixed(1)}ms</b>`;
   logEl.appendChild(line);
   logEl.scrollTop = logEl.scrollHeight;
+  clearLogBtn.disabled = false;
 }
 
 function getEngine(): string {
