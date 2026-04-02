@@ -113,7 +113,11 @@ for (const size of sizes) {
       const wallsPtr = wasmExports.getMazeWalls();
       const topBotsPtr = wasmExports.getMazeTopBots();
       const drawStart = performance.now();
-      drawMaze(size, (i) => !!mem[wallsPtr + i], (i) => !!mem[topBotsPtr + i]);
+      drawMaze(
+        size,
+        (i) => !!mem[wallsPtr + i],
+        (i) => !!mem[topBotsPtr + i],
+      );
       const drawMs = performance.now() - drawStart;
       log(size, genMs, drawMs, "wasm");
     } else {
@@ -121,7 +125,11 @@ for (const size of sizes) {
       const maze = generateMazeJS(size);
       const genMs = performance.now() - start;
       const drawStart = performance.now();
-      drawMaze(maze.size, (i) => maze.walls[i], (i) => maze.topBots[i]);
+      drawMaze(
+        maze.size,
+        (i) => maze.walls[i]!,
+        (i) => maze.topBots[i]!,
+      );
       const drawMs = performance.now() - drawStart;
       log(size, genMs, drawMs, "js");
     }
