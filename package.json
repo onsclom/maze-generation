@@ -1,0 +1,17 @@
+{
+  "name": "maze-generation",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "scripts": {
+    "build:wasm": "bun build-wasm.ts",
+    "build": "bun build-wasm.ts && bun build index.html --outdir dist",
+    "dev": "bun dev.ts"
+  }
+}
