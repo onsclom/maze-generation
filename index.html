@@ -1,19 +1,55 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>maze generation</title>
-        <script type="module" src="./index.ts"></script>
-        <style></style>
-    </head>
-    <body>
-        <div>
-            <input id="size" type="number" min="1" max="1000" value="10" />
-            <button id="generate-wasm">Generate Maze (WASM)</button>
-            <button id="generate-js">Generate Maze (JS)</button>
-            <span id="time"></span>
-        </div>
-        <pre id="maze"></pre>
-    </body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>maze generation</title>
+    <script type="module" src="./index.ts"></script>
+    <style>
+      html {
+        font-family:
+          -apple-system,
+          BlinkMacSystemFont,
+          avenir next,
+          avenir,
+          segoe ui,
+          helvetica neue,
+          Adwaita Sans,
+          Cantarell,
+          Ubuntu,
+          roboto,
+          noto,
+          helvetica,
+          arial,
+          sans-serif;
+      }
+
+      #buttons {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+      }
+      #buttons button {
+        padding: 6px 12px;
+        cursor: pointer;
+      }
+      #log {
+        height: 100px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        padding: 8px;
+        font-family: monospace;
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>maze generation - wasm vs js</h1>
+    <div id="buttons"></div>
+    <p>source: <a href="maze.c">maze.c</a> · <a href="maze.ts.txt">maze.ts</a></p>
+    <div id="log"></div>
+    <canvas id="maze"></canvas>
+  </body>
 </html>

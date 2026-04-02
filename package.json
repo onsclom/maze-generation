@@ -11,7 +11,7 @@
   },
   "scripts": {
     "build:wasm": "bun build-wasm.ts",
-    "build": "bun build index.html --outdir dist",
+    "build": "bun build index.html --outdir dist && cp maze.c dist/ && cp maze.ts dist/maze.ts.txt",
     "dev": "bun index.html"
   }
 }
