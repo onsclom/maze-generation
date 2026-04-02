@@ -1,5 +1,5 @@
 import wasmUrl from "./maze.wasm" with { type: "file" };
-import { generateMaze as generateMazeJS, type Maze } from "./maze.ts";
+import { generateMaze as generateMazeJS } from "./maze.ts";
 
 const wasm = await WebAssembly.instantiateStreaming(fetch(wasmUrl));
 
@@ -36,7 +36,7 @@ function setupCanvas(size: number) {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
-const BATCH_SIZE = 10000; // very large mazes override the builtin limit
+const BATCH_SIZE = 1000; // very large mazes override the builtin limit
 
 function flushPath() {
   ctx.stroke();
