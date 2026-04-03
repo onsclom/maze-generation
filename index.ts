@@ -1,4 +1,5 @@
 import wasmUrl from "./maze.wasm" with { type: "file" };
+
 import { generateMaze as generateMazeJS } from "./maze.ts";
 
 const wasm = await WebAssembly.instantiateStreaming(fetch(wasmUrl));
