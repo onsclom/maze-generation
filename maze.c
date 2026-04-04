@@ -1,14 +1,17 @@
 // compiled with: clang --target=wasm32 -flto -O3 -nostdlib -Wl,--no-entry -Wl,--export-all -Wl,--lto-O3 -Wl,-z,stack-size=8388608 -o maze.wasm maze.c
 
+#include <stddef.h>
+#include <stdbool.h>
+#include <stdint.h>
+
 #define MAX_MAZE_SIZE 1000
 
-typedef unsigned short u16;
-typedef unsigned char u8;
+typedef uint16_t u16;
 
 typedef struct {
   u16 size;
-  u8 walls[MAX_MAZE_SIZE * (MAX_MAZE_SIZE + 1)];
-  u8 topBots[(MAX_MAZE_SIZE + 1) * MAX_MAZE_SIZE];
+  bool walls[MAX_MAZE_SIZE * (MAX_MAZE_SIZE + 1)];
+  bool topBots[(MAX_MAZE_SIZE + 1) * MAX_MAZE_SIZE];
 } Maze;
 
 typedef struct {
@@ -16,7 +19,7 @@ typedef struct {
 } Vec2d;
 
 static Maze maze;
-static u8 visited[MAX_MAZE_SIZE * MAX_MAZE_SIZE];
+static bool visited[MAX_MAZE_SIZE * MAX_MAZE_SIZE];
 static Vec2d stack[MAX_MAZE_SIZE * MAX_MAZE_SIZE];
 
 static unsigned int rngState;
@@ -32,12 +35,9 @@ static unsigned int nextRand(void) {
 
 void generateMaze(int size) {
   maze.size = size;
-  for (int i = 0; i < size * (size + 1); i++)
-    maze.walls[i] = 0;
-  for (int i = 0; i < (size + 1) * size; i++)
-    maze.topBots[i] = 0;
-  for (int i = 0; i < size * size; i++)
-    visited[i] = 0;
+  for (int i = 0; i < size * (size + 1); i++) maze.walls[i] = 0;
+  for (int i = 0; i < (size + 1) * size; i++) maze.topBots[i] = 0;
+  for (int i = 0; i < size * size; i++) visited[i] = 0;
 
   static const int dx[4] = {1, -1, 0, 0};
   static const int dy[4] = {0, 0, 1, -1};
@@ -67,17 +67,17 @@ void generateMaze(int size) {
     visited[ny * size + nx] = 1;
     stack[++top] = (Vec2d){nx, ny};
 
-    if (dx[dir] == 1)
+    if (dir == 0)  // right
       maze.walls[cy * (size + 1) + nx] = 1;
-    else if (dx[dir] == -1)
+    else if (dir == 1)  // left
       maze.walls[cy * (size + 1) + cx] = 1;
-    else if (dy[dir] == 1)
+    else if (dir == 2)  // down
       maze.topBots[ny * size + cx] = 1;
-    else
+    else  // up
       maze.topBots[cy * size + cx] = 1;
   }
 }
 
 u16 getMazeSize(void) { return maze.size; }
-u8 *getMazeWalls(void) { return maze.walls; }
-u8 *getMazeTopBots(void) { return maze.topBots; }
+bool* getMazeWalls(void) { return maze.walls; }
+bool* getMazeTopBots(void) { return maze.topBots; }
