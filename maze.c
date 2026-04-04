@@ -8,6 +8,7 @@
 #define MAX_MAZE_SIZE 1000
 
 typedef uint16_t u16;
+typedef uint32_t u32;
 
 typedef struct {
   u16 size;
@@ -15,13 +16,9 @@ typedef struct {
   bool topBots[(MAX_MAZE_SIZE + 1) * MAX_MAZE_SIZE];
 } Maze;
 
-typedef struct {
-  int x, y;
-} Vec2d;
-
 static Maze maze;
 static bool visited[MAX_MAZE_SIZE * MAX_MAZE_SIZE];
-static Vec2d stack[MAX_MAZE_SIZE * MAX_MAZE_SIZE];
+static u32 stack[MAX_MAZE_SIZE * MAX_MAZE_SIZE];
 
 static unsigned int rngState;
 
@@ -44,11 +41,11 @@ void generateMaze(u16 size) {
   static const int dy[4] = {0, 0, 1, -1};
 
   int top = 0;
-  stack[0] = (Vec2d){0, 0};
+  stack[0] = 0;
   visited[0] = 1;
 
   while (top >= 0) {
-    int cx = stack[top].x, cy = stack[top].y;
+    int cx = (int)(stack[top] % size), cy = (int)(stack[top] / size);
     int choices[4] = {0};
     size_t nChoices = 0;
 
@@ -67,7 +64,7 @@ void generateMaze(u16 size) {
     int dir = choices[nextRand() % nChoices];
     int nx = cx + dx[dir], ny = cy + dy[dir];
     visited[ny * size + nx] = 1;
-    stack[++top] = (Vec2d){nx, ny};
+    stack[++top] = (u32)(ny * size + nx);
 
     if (dir == 0)  // right
       maze.walls[cy * (size + 1) + nx] = 1;

@@ -1,6 +1,7 @@
 const proc = Bun.spawnSync([
-  "clang",
-  "--target=wasm32",
+  "zig",
+  "cc",
+  "--target=wasm32-freestanding",
   "-std=c99",
   "-Wall",
   "-Wextra",
@@ -15,10 +16,14 @@ const proc = Bun.spawnSync([
   "-O3",
   "-nostdlib",
   "-Wl,--no-entry",
-  "-Wl,--export-all",
-  "-Wl,--strip-all",
-  "-Wl,--lto-O3",
-  "-Wl,-z,stack-size=8388608", // # Set maximum stack size to 8MiB
+  "-Wl,--export=seedRng",
+  "-Wl,--export=generateMaze",
+  "-Wl,--export=getMazeSize",
+  "-Wl,--export=getMazeWalls",
+  "-Wl,--export=getMazeTopBots",
+  "-Wl,--strip-debug",
+  "-Wl,-z,stack-size=8388608", // 8MiB stack
+  "-rdynamic",
   "-o",
   "maze.wasm",
   "maze.c",
@@ -27,4 +32,4 @@ const proc = Bun.spawnSync([
 const stderr = new TextDecoder().decode(proc.stderr);
 if (stderr) console.error(stderr);
 if (proc.exitCode !== 0) process.exit(proc.exitCode);
-console.log("maze.wasm built successfully");
+console.log("maze.wasm built successfully (C via zig cc)");
