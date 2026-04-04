@@ -1,7 +1,8 @@
-// compiled with: clang --target=wasm32 -flto -O3 -nostdlib -Wl,--no-entry -Wl,--export-all -Wl,--lto-O3 -Wl,-z,stack-size=8388608 -o maze.wasm maze.c
+// compiled with: clang --target=wasm32 -flto -O3 -nostdlib -Wl,--no-entry
+// -Wl,--export-all -Wl,--lto-O3 -Wl,-z,stack-size=8388608 -o maze.wasm maze.c
 
-#include <stddef.h>
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
 
 #define MAX_MAZE_SIZE 1000
@@ -33,7 +34,7 @@ static unsigned int nextRand(void) {
   return rngState;
 }
 
-void generateMaze(int size) {
+void generateMaze(u16 size) {
   maze.size = size;
   for (int i = 0; i < size * (size + 1); i++) maze.walls[i] = 0;
   for (int i = 0; i < (size + 1) * size; i++) maze.topBots[i] = 0;
@@ -48,7 +49,8 @@ void generateMaze(int size) {
 
   while (top >= 0) {
     int cx = stack[top].x, cy = stack[top].y;
-    int choices[4], nChoices = 0;
+    int choices[4] = {0};
+    size_t nChoices = 0;
 
     for (int i = 0; i < 4; i++) {
       int nx = cx + dx[i], ny = cy + dy[i];

@@ -1,6 +1,16 @@
 const proc = Bun.spawnSync([
   "clang",
   "--target=wasm32",
+  "-std=c99",
+  "-Wall",
+  "-Wextra",
+  "-Wpedantic",
+  "-Wshadow",
+  "-Wconversion",
+  "-Wdouble-promotion",
+  "-Wformat=2",
+  "-Wnull-dereference",
+  "-Wstrict-prototypes",
   "-flto",
   "-O3",
   "-nostdlib",
@@ -13,8 +23,7 @@ const proc = Bun.spawnSync([
   "maze.c",
 ]);
 
-if (proc.exitCode !== 0) {
-  console.error(new TextDecoder().decode(proc.stderr));
-  process.exit(proc.exitCode);
-}
+const stderr = new TextDecoder().decode(proc.stderr);
+if (stderr) console.error(stderr);
+if (proc.exitCode !== 0) process.exit(proc.exitCode);
 console.log("maze.wasm built successfully");
