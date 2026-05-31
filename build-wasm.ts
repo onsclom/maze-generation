@@ -121,12 +121,9 @@ const proc = Bun.spawnSync([
   "-flto",
   "-O3",
   "-nostdlib",
+  "-fvisibility=hidden", // hide all symbols by default...
   "-Wl,--no-entry",
-  "-Wl,--export=seedRng",
-  "-Wl,--export=generateMaze",
-  "-Wl,--export=getMazeSize",
-  "-Wl,--export=getMazeWalls",
-  "-Wl,--export=getMazeTopBots",
+  "-rdynamic", // ...then export the ones marked EXPORT (visibility default)
   "-Wl,--strip-debug",
   "-Wl,-z,stack-size=8388608", // # Set maximum stack size to 8MiB
   "-o",

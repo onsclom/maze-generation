@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#define EXPORT __attribute__((visibility("default")))
+
 #define MAX_MAZE_SIZE 1000
 
 typedef uint16_t u16;
@@ -21,7 +23,7 @@ static u32 stack[MAX_MAZE_SIZE * MAX_MAZE_SIZE];
 
 static unsigned int rngState;
 
-void seedRng(unsigned int seed) { rngState = seed; }
+EXPORT void seedRng(unsigned int seed) { rngState = seed; }
 
 static unsigned int nextRand(void) {
   rngState ^= rngState << 13;
@@ -30,7 +32,7 @@ static unsigned int nextRand(void) {
   return rngState;
 }
 
-void generateMaze(u16 size) {
+EXPORT void generateMaze(u16 size) {
   maze.size = size;
   for (int i = 0; i < size * (size + 1); i++) maze.walls[i] = 0;
   for (int i = 0; i < (size + 1) * size; i++) maze.topBots[i] = 0;
@@ -76,6 +78,6 @@ void generateMaze(u16 size) {
   }
 }
 
-u16 getMazeSize(void) { return maze.size; }
-bool* getMazeWalls(void) { return maze.walls; }
-bool* getMazeTopBots(void) { return maze.topBots; }
+EXPORT u16 getMazeSize(void) { return maze.size; }
+EXPORT bool* getMazeWalls(void) { return maze.walls; }
+EXPORT bool* getMazeTopBots(void) { return maze.topBots; }
