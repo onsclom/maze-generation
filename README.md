@@ -4,7 +4,9 @@ Side-by-side comparison of maze generation in WASM (C compiled to wasm32) and Ja
 
 ## Setup
 
-Requires [Bun](https://bun.sh) and `clang` with wasm32 target support.
+Requires [Bun](https://bun.sh). The wasm build uses [Zig](https://ziglang.org)
+as the C compiler (`zig cc`); if `zig` isn't on your `PATH`, `build-wasm.ts`
+downloads a pinned version into `.zig/` and reuses it.
 
 ```bash
 bun install
@@ -18,7 +20,9 @@ bun run dev
 bun run build
 ```
 
-Outputs to `dist/`.
+Builds `maze.wasm` from `maze.c`, then bundles to `dist/`. `maze.wasm` is a
+build artifact and is not committed. It's compiled during the build (including
+on Vercel), so no toolchain setup is needed beyond Bun.
 
 ## How it works
 

@@ -1,5 +1,4 @@
-// compiled with: clang --target=wasm32 -flto -O3 -nostdlib -Wl,--no-entry
-// -Wl,--export-all -Wl,--lto-O3 -Wl,-z,stack-size=8388608 -o maze.wasm maze.c
+// compiled to wasm by build-wasm.ts via `zig cc` (run `bun run build:wasm`)
 
 #include <stdbool.h>
 #include <stddef.h>
