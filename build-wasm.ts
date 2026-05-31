@@ -127,6 +127,7 @@ const proc = Bun.spawnSync([
   "-Wl,--export=getMazeSize",
   "-Wl,--export=getMazeWalls",
   "-Wl,--export=getMazeTopBots",
+  "-Wl,--strip-debug",
   "-Wl,-z,stack-size=8388608", // # Set maximum stack size to 8MiB
   "-o",
   "maze.wasm",
